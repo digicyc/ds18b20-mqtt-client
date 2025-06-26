@@ -1,0 +1,15 @@
+[Unit]
+Description=DS18B20 Temperature Monitor
+After=network.target
+
+[Service]
+Type=simple
+User=aaron
+WorkingDirectory=/opt/ds18b20-mqtt
+EnvironmentFile=/opt/ds18b20-mqtt/.env
+ExecStart=/opt/ds18b20-mqtt/ds18b20-mqtt
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
