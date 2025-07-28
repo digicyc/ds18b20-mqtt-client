@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -49,7 +48,7 @@ func NewTemperatureSensor() (*TemperatureSensor, error) {
 }
 
 func (ts *TemperatureSensor) ReadTemperature() (float64, error) {
-	data, err := ioutil.ReadFile(ts.devicePath)
+	data, err := os.ReadFile(ts.devicePath)
 	if err != nil {
 		return 0, fmt.Errorf("error reading sensor data: %v", err)
 	}
