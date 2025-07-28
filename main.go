@@ -26,6 +26,8 @@ type TemperatureSensor struct {
 	devicePath string
 }
 
+var PrevTemp = 0
+
 func NewTemperatureSensor() (*TemperatureSensor, error) {
 	// Find DS18B20 sensor
 	devices, err := filepath.Glob("/sys/bus/w1/devices/28-*")
@@ -199,6 +201,11 @@ func main() {
 			if err != nil {
 				log.Printf("Error reading temperature: %v", err)
 				continue
+			}
+			if int(temperature) == PrevTemp {
+				continue // Skip publishing if the temperature hasn't changed
+			} else {
+				PrevTemp = int(temperature)
 			}
 
 			err = mqttClient.PublishTemperature(temperature)
