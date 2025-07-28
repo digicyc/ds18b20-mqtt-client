@@ -203,6 +203,8 @@ func main() {
 				log.Printf("Error reading temperature: %v", err)
 				continue
 			}
+			faren := (temperature * 1.8) + 32
+			log.Printf("Published temperature: %.2f°C, fahrenheit: %.2fF", temperature, faren)
 			if int(temperature) == PrevTemp {
 				continue // Skip publishing if the temperature hasn't changed
 			} else {
