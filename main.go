@@ -121,8 +121,9 @@ func NewMQTTClient(config Config) (*MQTTClient, error) {
 }
 
 func (mc *MQTTClient) PublishTemperature(temperature float64) error {
-	payload := fmt.Sprintf(`{"temperature": %.2f, "unit": "C", "timestamp": "%s"}`,
-		temperature, time.Now().Format(time.RFC3339))
+	faren := (temperature * 1.8) + 32
+	payload := fmt.Sprintf(`{"temperature": %.2f, "fahrenheit": %.2fF, "unit": "C", "timestamp": "%s"}`,
+		temperature, faren, time.Now().Format(time.RFC3339))
 
 	token := mc.client.Publish(mc.topic, 0, false, payload)
 	token.Wait()
@@ -131,7 +132,7 @@ func (mc *MQTTClient) PublishTemperature(temperature float64) error {
 		return fmt.Errorf("failed to publish temperature: %v", token.Error())
 	}
 
-	log.Printf("Published temperature: %.2f°C", temperature)
+	log.Printf("Published temperature: %.2f°C, fahrenheit: %.2fF", temperature, faren)
 	return nil
 }
 
