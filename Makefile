@@ -6,6 +6,7 @@ build:
 	go build -o $(BINARY_NAME) .
 
 install: build
+	sudo cp $(BINARY_NAME) /opt/ds18b20-mqtt/
 	sudo cp $(BINARY_NAME) /usr/local/bin/
 	sudo cp $(SERVICE_NAME) /etc/systemd/system/
 	sudo systemctl daemon-reload
